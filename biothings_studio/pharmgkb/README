@@ -1,0 +1,8 @@
+From annotations.zip:
+- var_drug_ann.tsv: variant-gene-drug annotations
+ 
+From drugLabels.zip:
+- drugLabels.byGene.tsv: per gene, drugs which impact them
+
+From occurrences.zip:
+- occurrences.tsv: litterature, per entity type

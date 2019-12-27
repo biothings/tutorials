@@ -1,0 +1,12 @@
+{
+    "version": "0.2",
+    "requires" : ["pandas"],
+    "dumper" : {
+        "data_url" : "https://s3.pgkb.org/data/annotations.zip",
+        "uncompress" : true
+    },
+    "uploader" : {
+        "parser" : "parser:load_annotations",
+        "on_duplicates" : "error"
+    }
+}
