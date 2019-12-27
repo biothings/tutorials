@@ -1,2 +1,3 @@
 from .dump import PharmgkbDumper
-from .upload import PharmgkbUploader
+from .upload_annotations import AnnotationsUploader
+from .upload_druglabels import DrugLabelsUploader
