@@ -1,8 +1,14 @@
 import os, pandas, csv, re
 import numpy as np
-from biothings.utils.dataload import dict_sweep
+from biothings.utils.dataload import dict_convert, dict_sweep
+
 from biothings import config
 logging = config.logger
+
+
+# we'll remove space in keys to make queries easier. Also, lowercase is preferred
+# for a BioThings API. We'll an helper function from BioThings SDK
+process_key = lambda k: k.replace(" ","_").lower()
 
 
 def load_annotations(data_folder):
@@ -15,6 +21,8 @@ def load_annotations(data_folder):
             logging.warning("No gene information for annotation ID '%s'", rec["Annotation ID"])
             continue
         _id = re.match(".* \((.*?)\)",rec["Gene"]).groups()[0]
+        rec = dict_convert(rec,keyfn=process_key)
+        # remove NaN values, not indexable
         rec = dict_sweep(rec,vals=[np.nan])
         results.setdefault(_id,[]).append(rec)
     for _id,docs in results.items():
@@ -34,7 +42,9 @@ def load_druglabels(data_folder):
         for i,_ in enumerate(label_ids):
             labels.append({"id" : label_ids[i],
                            "name" : label_names[i]})
-        doc = {"_id" : rec["Gene ID"], "drug_labels" : labels}
+        _id = rec["Gene ID"]
+        rec = dict_convert(rec,keyfn=process_key)
+        doc = {"_id" : _id, "drug_labels" : labels}
         yield doc
 
 
@@ -47,6 +57,7 @@ def load_occurrences(data_folder):
         if rec["Object Type"] != "Gene":
             continue
         _id = rec["Object ID"]
+        rec = dict_convert(rec,keyfn=process_key)
         results.setdefault(_id,[]).append(rec)
     for _id,docs in results.items():
         doc = {"_id": _id, "occurrences" : docs}
