@@ -1,6 +1,8 @@
 import os
 
-import biothings, config
+import biothings
+import config
+
 biothings.config_for_app(config)
 
 import biothings.hub.dataload.uploader
@@ -9,7 +11,6 @@ from .parser import load_occurrences
 
 
 class OccurrencesUploader(biothings.hub.dataload.uploader.BaseSourceUploader):
-
     main_source = "pharmgkb"
     name = "occurrences"
     __metadata__ = {"src_meta": {}}

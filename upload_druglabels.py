@@ -1,6 +1,8 @@
 import os
 
-import biothings, config
+import biothings
+import config
+
 biothings.config_for_app(config)
 
 import biothings.hub.dataload.uploader
@@ -9,7 +11,6 @@ from .parser import load_druglabels
 
 
 class DrugLabelsUploader(biothings.hub.dataload.uploader.BaseSourceUploader):
-
     main_source = "pharmgkb"
     name = "druglabels"
     __metadata__ = {"src_meta": {}}
