@@ -9,9 +9,6 @@ from biothings.utils.dataload import dict_convert, dict_sweep
 
 logging = config.logger
 
-
-# we'll remove space in keys to make queries easier. Also, lowercase is preferred
-# for a BioThings API. We'll an helper function from BioThings SDK
 process_key = lambda k: k.replace(" ", "_").lower()
 
 
@@ -73,3 +70,33 @@ def load_occurrences(data_folder):
     for _id, docs in results.items():
         doc = {"_id": _id, "occurrences": docs}
         yield doc
+
+
+def custom_annotations_mapping(klass):
+    return {
+        "annotations": {
+            "properties": {
+                "alleles": {"type": "text"},
+                "annotation_id": {"type": "integer"},
+                "chemical": {"type": "text"},
+                "chromosome": {
+                    "normalizer": "keyword_lowercase_normalizer",
+                    "type": "keyword",
+                },
+                "gene": {"type": "text", "copy_to": ["all"]},
+                "notes": {"type": "text"},
+                "pmid": {"type": "integer"},
+                "phenotype_category": {
+                    "normalizer": "keyword_lowercase_normalizer",
+                    "type": "keyword",
+                },
+                "sentence": {"type": "text"},
+                "significance": {"type": "text"},
+                "studyparameters": {
+                    "normalizer": "keyword_lowercase_normalizer",
+                    "type": "keyword",
+                },
+                "variant": {"type": "text", "copy_to": ["all"]},
+            }
+        }
+    }
