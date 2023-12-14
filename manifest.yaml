@@ -1,0 +1,22 @@
+---
+version: '0.3'
+requires:
+- pandas
+- numpy
+dumper:
+  data_url:
+  - https://s3.pgkb.org/data/annotations.zip
+  - https://s3.pgkb.org/data/drugLabels.zip
+  - https://s3.pgkb.org/data/occurrences.zip
+  uncompress: true
+uploaders:
+- name: annotations
+  parser: parser:load_annotations
+  mapping: parser:custom_annotations_mapping
+  on_duplicates: error
+- name: druglabels
+  parser: parser:load_druglabels
+  on_duplicates: error
+- name: occurrences
+  parser: parser:load_occurrences
+  on_duplicates: error
